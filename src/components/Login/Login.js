@@ -6,26 +6,35 @@ import { BoxArrowDownRight} from "react-bootstrap-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import queryString from 'query-string';
-import sirsImage from '../Images/sirsImage4.jpeg'
+import sirsImage from '../Images/login11.jpg'
 // import ReCAPTCHA from "react-google-recaptcha"
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-    const [continued, setContinued] = useState('')
-    
     // const googleReCaptchaSiteKey = process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY
 
     useEffect(() => {
-        session()        
+        session()
+        
         // eslint-disable-next-line
     },[])
 
     const session = async() => {
         try {
-            await axios.get('/v1/session')
-            navigate('/beranda')
+            const response = await axios.get('/v1/session')
+            const parsed = queryString.parse(window.location.search);
+            const paramValue = parsed.continued;
+            // const decodeUrl = decodeURIComponent(paramValue);
+            // console.log(decodeUrl)
+
+            if (!paramValue) {
+                console.log('Parameter paramName is empty or not provided.');
+                navigate('/beranda')
+            } else {
+                window.location.replace(paramValue + '?token=' + response.data.user.token)
+            }
         } catch (error) {
             
         }
@@ -41,7 +50,7 @@ const Login = () => {
                 }
             } 
             const results = await axios.post('/v1/login',{
-                userName: email,
+                email: email,
                 password: password
                 // reCaptchaToken: reCaptchaToken
             }, customConfig)
@@ -52,6 +61,7 @@ const Login = () => {
             const paramValue = parsed.continued;
             if (!paramValue) {
                 console.log('Parameter paramName is empty or not provided.');
+                navigate('/beranda')
             } else {
                 window.location.replace(paramValue + '?token=' + token)
             }
@@ -70,8 +80,8 @@ const Login = () => {
             <div className="row">
                 <div className="col-md-12">
                     <div className={`row ${style.content}`}>
-                        <div className="col-md-6">
-                            <div>
+                        <div className="col-md-6" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                            <div style={{width: "70%"}}>
                                 <img
                                     src={sirsImage}
                                     className="img-fluid"

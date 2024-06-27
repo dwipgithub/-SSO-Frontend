@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown  from 'react-bootstrap/NavDropdown'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-import logoImage from '../Images/sirsIcon.png'
+import logoImage from '../Images/folder.png'
 
 const NavigationBar = () => {
+    const [userName, setUserName] = useState('')
     const navigate = useNavigate()
+
     useEffect(() => {
         refreshToken()
         
@@ -19,6 +21,8 @@ const NavigationBar = () => {
         try {
             const response = await axios.get('/v1/session')
             console.log(response)
+            console.log(response.data.user.emailUser)
+            setUserName(response.data.user.emailUser)
         } catch (error) {
             if(error.response) {
                 navigate('/login')
@@ -57,7 +61,7 @@ const NavigationBar = () => {
                 
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text>
-                        <NavDropdown title={<span style={{color: "gray"}}>{`Login as ${localStorage.getItem('name')}`}</span>} id="basic-nav-dropdown">
+                        <NavDropdown title={<span style={{color: "gray"}}>{`Login as ${ userName }`}</span>} id="basic-nav-dropdown">
                             {/* <NavDropdown.Item as={Link} to="/user/tambahuser">Tambah Pengguna</NavDropdown.Item> */}
                             <NavDropdown.Item as={Link} to="/user/ubahpassword">Ubah Sandi</NavDropdown.Item>
                             <NavDropdown.Item onClick={Logout}>Log Out</NavDropdown.Item>
