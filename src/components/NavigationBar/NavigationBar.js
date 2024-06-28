@@ -19,26 +19,25 @@ const NavigationBar = () => {
 
     const refreshToken = async() => {
         try {
-            const response = await axios.get('/v1/session')
+            const response = await axios.get('/sso/v1/session')
             console.log(response)
             console.log(response.data.user.emailUser)
             setUserName(response.data.user.emailUser)
         } catch (error) {
             if(error.response) {
-                navigate('/login')
+                navigate('/single')
             }
         }
     }
 
-    const Logout = async() => {
-        try {
-            await axios.delete('/apisirs/logout')
-            localStorage.removeItem('name')
-            navigate('/')
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const Logout = async() => {
+    //     try {
+    //         await axios.delete('/sso/v1/logout')
+    //         navigate('/')
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
     return (
         <Navbar className="navbar fixed-top navbar-expand-lg" style={{backgroundSize: "0", backgroundColor: "#E1E6EA"}}>
             <Container>
@@ -64,7 +63,7 @@ const NavigationBar = () => {
                         <NavDropdown title={<span style={{color: "gray"}}>{`Login as ${ userName }`}</span>} id="basic-nav-dropdown">
                             {/* <NavDropdown.Item as={Link} to="/user/tambahuser">Tambah Pengguna</NavDropdown.Item> */}
                             <NavDropdown.Item as={Link} to="/user/ubahpassword">Ubah Sandi</NavDropdown.Item>
-                            <NavDropdown.Item onClick={Logout}>Log Out</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/logout">Log Out</NavDropdown.Item>
                         </NavDropdown>
                     </Navbar.Text>
                 </Navbar.Collapse>

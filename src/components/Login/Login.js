@@ -23,7 +23,7 @@ const Login = () => {
 
     const session = async() => {
         try {
-            const response = await axios.get('/v1/session')
+            const response = await axios.get('/sso/v1/session')
             const parsed = queryString.parse(window.location.search);
             const paramValue = parsed.continued;
             // const decodeUrl = decodeURIComponent(paramValue);
@@ -49,7 +49,7 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 }
             } 
-            const results = await axios.post('/v1/login',{
+            const results = await axios.post('/sso/v1/login',{
                 email: email,
                 password: password
                 // reCaptchaToken: reCaptchaToken

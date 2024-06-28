@@ -1,14 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Login from "./components/Login/Login"
+import Logout from "./components/Logout/Logout"
 import NavigationBar from "./components/NavigationBar/NavigationBar"
 
 function App() {
   return (
-    <BrowserRouter basename="">
+    <BrowserRouter basename="/single">
       <Routes>
-        <Route path="/login" element={<Login/>} />
+        <Route path="/" element={<Login/>} />
         <Route path="/beranda" element={<><NavigationBar/></>} />
+        <Route path="/logout" element={<><Logout/></>} />
         <Route path="*" element={<PageNotFound />} status={404}/>
       </Routes>
     </BrowserRouter>
